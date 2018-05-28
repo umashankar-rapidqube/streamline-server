@@ -1,0 +1,24 @@
+{
+  "name": "streamline-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umashankar-rapiqube/streamline-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umashankar-rapiqube/streamline-server/issues"
+  },
+  "homepage": "https://github.com/umashankar-rapiqube/streamline-server#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}
