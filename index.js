@@ -10,7 +10,6 @@ var expressSession = require('express-session');
 var bunyan = require('bunyan');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var passport = require('passport');
@@ -30,6 +29,7 @@ const PORT = process.env.PORT || 3000
 // set up database for express session
 var MongoStore = require('connect-mongo')(expressSession);
 var mongoose = require('mongoose');
+
 
 // Start QuickStart here
 
@@ -145,7 +145,7 @@ app.use(cookieParser());
 // set up session middleware
 if (config.useMongoDBSessionStore) {
   mongoose.connect(config.databaseUri);
-  app.use(express.session({
+  app.use(expressSession({
     secret: 'secret',
     cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
     store: new MongoStore({

@@ -75,10 +75,10 @@ exports.destroySessionUrl = 'https://login.microsoftonline.com/common/oauth2/log
 // If you want to use the mongoDB session store for session middleware, set to true; otherwise we will use the default
 // session store provided by express-session.
 // Note that the default session store is designed for development purpose only.
-exports.useMongoDBSessionStore = false;
+exports.useMongoDBSessionStore = true;
 
 // If you want to use mongoDB, provide the uri here for the database.
-exports.databaseUri = 'mongodb://localhost/OIDCStrategy';
+exports.databaseUri = 'mongodb://nodeadmin:nodeadmin123@ds125181.mlab.com:25181/streamline';
 
 // How long you want to keep session in mongoDB.
 exports.mongoDBSessionMaxAge = 24 * 60 * 60;  // 1 day (unit is second)
