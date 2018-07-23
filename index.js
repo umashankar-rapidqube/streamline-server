@@ -182,7 +182,7 @@ function ensureAuthenticated(req, res, next) {
 };
 
 app.get('/', function(req, res) {
-  res.render('index', { user: req.user });
+  res.json({"data":"welcome to streamline.!"})
 });
 
 // '/account' is only available to logged in user
@@ -238,8 +238,10 @@ app.post('/auth/openid/return',
     )(req, res, next);
   },
   function(req, res) {
+    console.log(res)
     log.info('We received a return from AzureAD.');
-    res.redirect('https://rapidqube-streamline.herokuapp.com/home');
+    res.redirect('http://localhost:4200/');
+    //res.redirect('https://rapidqube-streamline.herokuapp.com/home');
   });
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
