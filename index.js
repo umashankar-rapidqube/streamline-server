@@ -39,6 +39,7 @@ var log = bunyan.createLogger({
     name: 'Microsoft OIDC Example Web Application'
 });
 
+//refer https://apps.dev.microsoft.com
 /******************************************************************************
  * Set up passport in the app 
  ******************************************************************************/
@@ -271,7 +272,7 @@ app.get('/logout', function(req, res){
   );
 
   app.get('/account', ensureAuthenticated, function(req, res) {
-    res.render('account', { user: req.user });
+    res.json({ user: req.user });
   })
   
 
