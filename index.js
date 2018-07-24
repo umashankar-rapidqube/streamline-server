@@ -186,10 +186,7 @@ app.get('/', function(req, res) {
   res.json({"data":"welcome to streamline.!"})
 });
 
-// '/account' is only available to logged in user
-app.get('/account', ensureAuthenticated, function(req, res) {
-  res.render('account', { user: req.user });
-});
+
 
 app.get('/login',
   function(req, res, next) {
