@@ -272,7 +272,8 @@ app.get('/logout', function(req, res){
   );
 
   app.get('/account', ensureAuthenticated, function(req, res) {
-    res.json({ user: req.user });
+    res.status(200).send({ user: req.user });
+ 
   })
   
 
