@@ -26,6 +26,5 @@ var leaveRecord = mongoose.model('leaveRecord', leaveRecordSchema);
 
 module.exports={
     employee : employee,
-    leave : leave,
     leaverecord : leaveRecord
 };

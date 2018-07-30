@@ -1,22 +1,49 @@
 var model = require('../model/model');
-var mongodb = require('../db/mongodb');
+var mongodb = require('../db/leavesDao');
 
 module.exports = {
     getAllLeaves : getAllLeaves,
     saveLeave : saveLeave
 }
 
-function getAllLeaves(user){
+function getAllLeaves(userid){
     return new Promise(async (resolve,reject)=>{
-        
-        
+        var responseObj = {};
+
+        mongodb.getAllLeaves(userid).then((data)=>{
+            
+            responseObj.data = [];
+            responseObj.leave = data;
+            responseObj.errors = [];
+            responseObj.meta={};
+
+            resolve(responseObj);
+        }).catch((error)=>{
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta={};
+        });
+    
         
     })}
 
-function saveLeave(useid, leaves, leaveRecord){
+function saveLeave(leaveRecord){
+
         return new Promise(async (resolve,reject)=>{
+            var responseObj = {};
+            var user = mongodb.saveleave(leaveRecord).then((data)=>{
             
-            var user = mongodb.findleaveObj(useid);
+                responseObj.data = data;
+                responseObj.errors = [];
+                responseObj.meta={};
+    
+                resolve(responseObj);
+            }).catch((error)=>{
+                responseObj.data = [];
+                responseObj.errors = [error];
+                responseObj.meta={};
+            });
+        
             
             
         })}

@@ -4,6 +4,7 @@ var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
 var leaves = require('./core/leaves');
 var compression = require('compression');
+bodyParser = require('body-parser');
 
 var options = {
     identityMetadata: "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration/",
@@ -31,6 +32,8 @@ app.use(morgan('dev'));
 app.use(compression());
 app.use(passport.initialize());
 passport.use(bearerStrategy);
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -62,20 +65,27 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
 
   /*------------------leaves---------------------- */
   //retrives all leaves for a user
-  // method GET
-  app.get('/api/leaves', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
-
-    res.status(200).send(data);    
+  // method GET 
+  //satus = complete
+  app.get('/api/leaves',  passport.authenticate('oauth-bearer', {session: false}), (req, res) => {
+    var userid = req.query['userid']
+    console.log(userid)
+    leaves.getAllLeaves(userid).then((Response)=>{
+        res.json(Response)
+    }).catch((error)=>{
+        res.json(error)
+    })
+    
   } 
   );
 
   //retrives a particular leave by id
   // method GET
-  app.get('/api/leaves/:id', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+  //app.get('/api/leaves/:id', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
     
-    res.status(200).send(data);    
-  } 
-  );
+  //  res.status(200).send(data);    
+  //} 
+  //);
   
   //updates a leave id
   // method PATCH
@@ -87,13 +97,15 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
 
   //saves a leave request
   // method POST
-  app.post('/api/leaves', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
-    leaves.saveLeave(JSON.parse(req.body)).then((data)=>{
-
+  //status - complete
+  app.post('/api/leaves',  passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+      var input = JSON.stringify(req.body);
+    leaves.saveLeave(JSON.parse(input)).then((Response)=>{
+        res.json(Response)
     }).catch((error)=>{
-
+        res.json(error)
     })
-    res.status(200).send(data);    
+       
   } 
   );
 
