@@ -2,6 +2,8 @@ var express = require("express");
 var morgan = require("morgan");
 var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
+var leaves = require('./core/leaves');
+var compression = require('compression');
 
 var options = {
     identityMetadata: "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration/",
@@ -26,7 +28,7 @@ var bearerStrategy = new BearerStrategy(options,
 
 var app = express();
 app.use(morgan('dev'));
-
+app.use(compression());
 app.use(passport.initialize());
 passport.use(bearerStrategy);
 
@@ -49,24 +51,67 @@ app.get("/hello",
 
 
 
+
 /**************************************APIs*******************************************/
 
-  app.get('/', (req, res) =>   
-  res.send('Hello World!'))
-
-  app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
-    const data = await issues.issues();
+app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (req, res) =>{   
+    const data = issues.issues();
     res.status(200).send(data);    
   } 
   );
 
+  /*------------------leaves---------------------- */
+  //retrives all leaves for a user
+  // method GET
   app.get('/api/leaves', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
-    const data = await leaves.leaves();
+
     res.status(200).send(data);    
   } 
   );
+
+  //retrives a particular leave by id
+  // method GET
+  app.get('/api/leaves/:id', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+    
+    res.status(200).send(data);    
+  } 
+  );
+  
+  //updates a leave id
+  // method PATCH
+  app.patch('/api/leaves/:id', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+    
+    res.status(200).send(data);    
+  } 
+  );
+
+  //saves a leave request
+  // method POST
+  app.post('/api/leaves', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+    leaves.saveLeave(JSON.parse(req.body)).then((data)=>{
+
+    }).catch((error)=>{
+
+    })
+    res.status(200).send(data);    
+  } 
+  );
+
 
   
+  //deletes a leave record
+  // method DELETE
+  passport.authenticate('oauth-bearer', {session: false})
+  app.delete('/api/leaves/:id',  (req, res) => {
+    
+    var userJson = req.body.user;
+    var leaveRecordJson = req.body.leaves.leaveRecord;
+    var leavesJson = req.body.leaves;
+    leaves.saveLeave(userJson, leavesJson, leaveRecordJson)
+    res.status(200).send(data);    
+  } 
+  );
+
 /**************************************APIs - end*******************************************/
 
 var port = process.env.PORT || 3000;
