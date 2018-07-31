@@ -1,9 +1,10 @@
+'use strict';
 const mongoose = require('mongoose');
 const config = require('../config');
 var model = require('../model/model');
 var ObjectId = mongoose.Types.ObjectId;
 
-mongoose.connect(config.databaseUri);
+mongoose.connect(config.databaseUri, { useNewUrlParser: true });
 
 module.exports = {
     getAllLeaves : getAllLeaves,
