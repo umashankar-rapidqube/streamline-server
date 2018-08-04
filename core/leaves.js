@@ -1,34 +1,55 @@
-
-
+var model = require('../model/model');
+var mongodb = require('../db/leavesDao');
 
 module.exports = {
-    leaves : function leaves(){
-        return new Promise(async (resolve,reject)=>{
-            resolve({"leaves": [{
-                "id": 1,
-                "remainingLeaves": 123,
-                "leaverecords": [1,2] 
-                }],
-                "leaverecords": [{
-                "id": 1,
-                "date": "2018-05-28T08:25:04.747Z",
-                "reason": "foo",
-                "from": "2018-05-28T08:25:04.747Z",
-                "to": "2018-05-28T08:25:04.747Z",
-                "status": "foo",
-                "leaveType": "foo" },
-                {
-                    "id": 2,
-                    "date": "2018-05-28T08:25:04.747Z",
-                    "reason": "foo",
-                    "from": "2018-05-28T08:25:04.747Z",
-                    "to": "2018-05-28T08:25:04.747Z",
-                    "status": "foo",
-                    "leaveType": "foo" }
-                ]})
-        })
-    }
+    getAllLeaves : getAllLeaves,
+    saveLeave : saveLeave
 }
+
+function getAllLeaves(userid){
+    return new Promise(async (resolve,reject)=>{
+        var responseObj = {};
+
+        mongodb.getAllLeaves(userid).then((data)=>{
+            
+            responseObj.data = [];
+            responseObj.leave = data;
+            responseObj.errors = [];
+            responseObj.meta={};
+
+            resolve(responseObj);
+        }).catch((error)=>{
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta={};
+        });
+    
+        
+    })}
+
+function saveLeave(leaveRecord){
+// console.log(leaveRecord,"leaveecord")
+        return new Promise(async (resolve,reject)=>{
+            var responseObj = {};
+        
+            var user = mongodb.saveleave(leaveRecord).then((data)=>{
+            console.log(user,"user")
+                responseObj.data = data;
+                responseObj.errors = [];
+                responseObj.meta={};
+    
+                resolve(responseObj);
+            }).catch((error)=>{
+                responseObj.data = [];
+                responseObj.errors = [error];
+                responseObj.meta={};
+            });
+        
+            
+            
+        })}
+
+
  
 
 
