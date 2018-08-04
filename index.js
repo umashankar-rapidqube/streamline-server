@@ -60,7 +60,7 @@ app.get("/hello",
   } 
   );
 
-  app.get('/api/leaves', passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
+  app.get('/api/leaves',  async (req, res) => {
     const data = await leaves.leaves();
     res.status(200).send(data);    
   } 
