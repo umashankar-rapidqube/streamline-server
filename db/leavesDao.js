@@ -21,8 +21,8 @@ function saveleave(leaveRecordJson){
 
     return new Promise((resolve, reject)=>{
         try{
-            newLeave.from = new Date(leaveRecordJson.selectedRange.start);
-            newLeave.to = new Date (leaveRecordJson.selectedRange.end);
+            newLeave.from = (leaveRecordJson.selectedRange.start)
+            newLeave.to = (leaveRecordJson.selectedRange.end)
             newLeave.reason = leaveRecordJson.reason;
             newLeave.leaveType = leaveRecordJson.leaveType;
             newLeave.count = leaveRecordJson.count;
