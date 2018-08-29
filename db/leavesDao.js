@@ -14,16 +14,22 @@ module.exports = {
 
 function saveleave(leaveRecordJson){
     var newLeave = new model.leaverecord();
+    console.log("from====>",leaveRecordJson.selectedRange.start);
+    console.log("end====>",leaveRecordJson.selectedRange.end);
+    console.log("reason====>", leaveRecordJson.reason);
+    console.log("leavetype====>", leaveRecordJson.leaveType);
 
     return new Promise((resolve, reject)=>{
         try{
-            newLeave.from = new Date(leaveRecordJson.from);
-            newLeave.to = new Date(leaveRecordJson.to);
+            newLeave.from = (leaveRecordJson.selectedRange.start)
+            newLeave.from.setDate(newLeave.from.getDate() + 1);
+            newLeave.to = (leaveRecordJson.selectedRange.end)
+            newLeave.to.setDate(newLeave.to.getDate() + 1);
             newLeave.reason = leaveRecordJson.reason;
             newLeave.leaveType = leaveRecordJson.leaveType;
             newLeave.count = leaveRecordJson.count;
-            newLeave.user = ObjectId(leaveRecordJson.user);   
-       
+            newLeave.user = ObjectId(leaveRecordJson.user);
+
             newLeave.save();
             return resolve(newLeave);
         }catch(error){

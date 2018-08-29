@@ -75,7 +75,7 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   //retrives all leaves for a user
   // method GET 
   //satus = complete
-  app.get('/api/leaves',  passport.authenticate('oauth-bearer', {session: false}), (req, res) => {
+  app.get('/api/leaves',  (req, res) => {
     var userid = req.query['userid']
     console.log(userid)
     leaves.getAllLeaves(userid).then((Response)=>{
@@ -106,10 +106,26 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   //saves a leave request
   // method POST
   //status - complete
-  app.post('/api/leaves',  passport.authenticate('oauth-bearer', {session: false}), async (req, res) => {
-      var input = JSON.stringify(req.body);
-    leaves.saveLeave(JSON.parse(input)).then((Response)=>{
-        res.json(Response)
+  app.post('/api/leaves',   async (req, res) => {
+
+    req.body.selectedRange.start = new Date(req.body.selectedRange.start).toString();
+   
+   
+    req.body.selectedRange.end = new Date(req.body.selectedRange.end).toString();
+      var input = req.body;
+      console.log("input111",input)
+    leaves.saveLeave(input).then((Response)=>{
+        // res.json(Response)
+        console.log("Response",Response)
+
+       
+   
+
+
+        res.send({
+            res:Response,
+            message:"Your leave request has been saved successfully"
+        })
     }).catch((error)=>{
         res.json(error)
     })
