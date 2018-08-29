@@ -3,6 +3,7 @@ var morgan = require("morgan");
 var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
 var leaves = require('./core/leaves');
+var user = require('./core/user');
 var compression = require('compression');
 bodyParser = require('body-parser');
 
@@ -40,6 +41,13 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+app.get("/",   function (req, res) {
+       
+        
+        res.status(200).json({'name': 'welcome to streamline'});
+    }
+);
 
 app.get("/hello",
     passport.authenticate('oauth-bearer', {session: false}),
@@ -113,16 +121,24 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   
   //deletes a leave record
   // method DELETE
-  passport.authenticate('oauth-bearer', {session: false})
-  app.delete('/api/leaves/:id',  (req, res) => {
+
+  
+  app.delete('/api/leaves/:id',   passport.authenticate('oauth-bearer', {session: false}),  (req, res) => {
     
-    var userJson = req.body.user;
-    var leaveRecordJson = req.body.leaves.leaveRecord;
-    var leavesJson = req.body.leaves;
-    leaves.saveLeave(userJson, leavesJson, leaveRecordJson)
-    res.status(200).send(data);    
+   
+    res.status(200).send("todo");    
   } 
   );
+
+  app.get('/api/employees',async (req, res)=>{
+
+    var email = req.query['email']
+    
+    
+    var employee = await user.findbyMail(email)
+    res.json(employee)
+
+  })
 
 /**************************************APIs - end*******************************************/
 
@@ -130,3 +146,4 @@ var port = process.env.PORT || 3000;
 app.listen(port, function () {
     console.log("Listening on port " + port);
 });
+
