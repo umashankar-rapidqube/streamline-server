@@ -3,6 +3,7 @@ var morgan = require("morgan");
 var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
 var leaves = require('./core/leaves');
+var ideas = require('./core/ideabox');
 var compression = require('compression');
 bodyParser = require('body-parser');
 
@@ -104,17 +105,15 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
    
    
     req.body.selectedRange.end = new Date(req.body.selectedRange.end).toString();
+   
       var input = req.body;
+
       console.log("input111",input)
     leaves.saveLeave(input).then((Response)=>{
         // res.json(Response)
         console.log("Response",Response)
 
-       
-   
-
-
-        res.send({
+            res.send({
             res:Response,
             message:"Your leave request has been saved successfully"
         })
@@ -125,7 +124,7 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   } 
   );
 
-
+ 
   
   //deletes a leave record
   // method DELETE
@@ -137,6 +136,39 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
     var leavesJson = req.body.leaves;
     leaves.saveLeave(userJson, leavesJson, leaveRecordJson)
     res.status(200).send(data);    
+  } 
+  );
+
+  //saves a ideabox details
+  // method POST
+  //status - complete
+  app.post('/api/ideabox',   async (req, res) => {
+    var input = req.body;
+
+    console.log("input111",input)
+  ideas.saveideas(input).then((Response)=>{
+      // res.json(Response)
+      console.log("Response",Response);
+      res.send({
+          status:200,
+          message:"Your ideas has been saved successfully"
+      })
+  }).catch((error)=>{
+      res.json(error)
+  })
+     
+} 
+);
+  //retrieves all ideas from users
+  app.get('/api/ideabox',  (req, res) => {
+    var userid = req.query['userid']
+    console.log(userid)
+    ideas.getAllIdeas(userid).then((Response)=>{
+        res.json(Response)
+    }).catch((error)=>{
+        res.json(error)
+    })
+    
   } 
   );
 

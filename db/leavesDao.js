@@ -10,6 +10,7 @@ mongoose.connect(config.databaseUri, { useNewUrlParser: true });
 module.exports = {
     getAllLeaves : getAllLeaves,
     saveleave : saveleave
+
 }
 
 function saveleave(leaveRecordJson){
@@ -29,6 +30,8 @@ function saveleave(leaveRecordJson){
             newLeave.leaveType = leaveRecordJson.leaveType;
             newLeave.count = leaveRecordJson.count;
             newLeave.user = ObjectId(leaveRecordJson.user);
+         
+            
 
             newLeave.save();
             return resolve(newLeave);
@@ -68,7 +71,9 @@ function updateLeaveInfo(userid, leaveid){
 function getAllLeaves(userid){
     var leaveRecords = []
     return new Promise((resolve, reject)=>{
+        console.log(userid)
         model.leaverecord.find({'user':ObjectId(userid)}).then((resultset)=>{
+            console.log("result",resultset)
             for(var index in resultset){
                 var leaveRecord = {}
                 var item = resultset[index];
