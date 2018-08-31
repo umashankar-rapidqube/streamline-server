@@ -40,7 +40,7 @@ function getAllIdeas(userid){
     return new Promise(async (resolve,reject)=>{
         var responseObj = {};
 
-        mongodb.getAllIdeas(userid).then((data)=>{
+        mongodb.getAllIdeas().then((data)=>{
             
             responseObj.data = [];
             responseObj.ideas = data;

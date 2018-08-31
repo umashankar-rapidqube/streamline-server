@@ -45,7 +45,7 @@ function getAllIdeas(userid){
     var IdeaRecords = []
     return new Promise((resolve, reject)=>{
         console.log(userid)
-        model.ideabox.find({'user':ObjectId(userid)}).then((resultset)=>{
+        model.ideabox.find().then((resultset)=>{
             console.log("result",resultset)
             for(var index in resultset){
                 var IdeaRecord = {}

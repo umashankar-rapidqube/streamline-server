@@ -4,6 +4,7 @@ var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
 var leaves = require('./core/leaves');
 var ideas = require('./core/ideabox');
+var user = require('./core/user');
 var compression = require('compression');
 bodyParser = require('body-parser');
 
@@ -161,9 +162,8 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
 );
   //retrieves all ideas from users
   app.get('/api/ideabox',  (req, res) => {
-    var userid = req.query['userid']
-    console.log(userid)
-    ideas.getAllIdeas(userid).then((Response)=>{
+   
+    ideas.getAllIdeas().then((Response)=>{
         res.json(Response)
     }).catch((error)=>{
         res.json(error)
@@ -171,7 +171,15 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
     
   } 
   );
+  app.get('/api/employees',async (req, res)=>{
 
+    var email = req.query['email']
+    
+    
+    var employee = await user.findbyMail(email)
+    res.json(employee)
+
+  })
 /**************************************APIs - end*******************************************/
 
 var port = process.env.PORT || 3000;
