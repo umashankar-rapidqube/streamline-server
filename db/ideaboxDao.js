@@ -23,11 +23,11 @@ return new Promise((resolve, reject)=>{
         newIdeas.suggestions = ideaRecordJson.suggestions;
         console.log(newIdeas.suggestions)
         newIdeas.description = ideaRecordJson.description;
-        console.log(newIdeas.suggestions)
+        console.log(newIdeas.description)
         newIdeas.email = ideaRecordJson.email;
         console.log(newIdeas.email)
         newIdeas.created_at = new Date();
-        console.log( newIdeas.datetime )
+        console.log( newIdeas.created_at )
         newIdeas.user = ObjectId(ideaRecordJson.user);
         console.log(newIdeas.user)
 
@@ -44,7 +44,6 @@ return new Promise((resolve, reject)=>{
 function getAllIdeas(userid){
     var IdeaRecords = []
     return new Promise((resolve, reject)=>{
-        console.log(userid)
         model.ideabox.find().then((resultset)=>{
             console.log("result",resultset)
             for(var index in resultset){
@@ -54,8 +53,9 @@ function getAllIdeas(userid){
                 IdeaRecord.title = item.title;
                 IdeaRecord.domain = item.domain;
                 IdeaRecord.description = item.description;
-                IdeaRecord.tags = item.tags;
-                IdeaRecord.datetime = item.datetime
+                IdeaRecord.email = item.email;
+                IdeaRecord.created_at = item.created_at;
+                IdeaRecord.suggestions = item.suggestions;
 
                 IdeaRecords.push(IdeaRecord);
 

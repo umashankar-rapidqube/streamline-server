@@ -162,6 +162,7 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
    
     ideas.getAllIdeas().then((Response)=>{
         res.json(Response)
+        console.log("res",Response)
     }).catch((error)=>{
         res.json(error)
     })

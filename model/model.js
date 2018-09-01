@@ -23,11 +23,10 @@ var employeeSchema = new Schema({
       title: String,
       domain: String,
       description: String,
-      tags: String,
+      email: String,
       created_at: String,
-      description: String,
       suggestions: String,
-      user :{ type: Schema.Types.ObjectId, ref: 'employee' }
+      user: { type: Schema.Types.ObjectId, ref: 'employee' }
 
   })
 
