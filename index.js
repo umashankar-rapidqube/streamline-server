@@ -129,16 +129,13 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   
   //deletes a leave record
   // method DELETE
-  passport.authenticate('oauth-bearer', {session: false})
-  app.delete('/api/leaves/:id',  (req, res) => {
+  
+  app.delete('/api/leaves/:id',   passport.authenticate('oauth-bearer', {session: false}),  (req, res) => {
     
-    var userJson = req.body.user;
-    var leaveRecordJson = req.body.leaves.leaveRecord;
-    var leavesJson = req.body.leaves;
-    leaves.saveLeave(userJson, leavesJson, leaveRecordJson)
-    res.status(200).send(data);    
+   
+    res.status(200).send("todo");    
   } 
-  );
+  )
 
   //saves a ideabox details
   // method POST
@@ -151,7 +148,7 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
       // res.json(Response)
       console.log("Response",Response);
       res.send({
-          status:200,
+          res:Response,
           message:"Your ideas has been saved successfully"
       })
   }).catch((error)=>{
