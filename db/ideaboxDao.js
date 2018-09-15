@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const config = require('../config');
 var model = require('../model/model');
+var dateFormat = require('dateformat')
 var ObjectId = mongoose.Types.ObjectId;
 
 mongoose.connect(config.databaseUri, { useNewUrlParser: true });
@@ -26,8 +27,11 @@ return new Promise((resolve, reject)=>{
         console.log(newIdeas.description)
         newIdeas.email = ideaRecordJson.email;
         console.log(newIdeas.email)
-        newIdeas.created_at = new Date();
+        created_at = new Date()
+        console.log(created_at)
+        newIdeas.created_at =dateFormat(created_at,"dd-mm-yyyy HH:mm:ss")
         console.log( newIdeas.created_at )
+        console.log("from=hjjjk===>",);
         newIdeas.user = ObjectId(ideaRecordJson.user);
         console.log(newIdeas.user)
 
@@ -44,7 +48,7 @@ return new Promise((resolve, reject)=>{
 function getAllIdeas(userid){
     var IdeaRecords = []
     return new Promise((resolve, reject)=>{
-        model.ideabox.find().then((resultset)=>{
+        model.ideabox.find().sort({created_at: -1}).then((resultset)=>{
             console.log("result",resultset)
             for(var index in resultset){
                 var IdeaRecord = {}
