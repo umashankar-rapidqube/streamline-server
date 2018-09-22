@@ -73,8 +73,7 @@ function updateLeave(leaveRecord){
 
         try{
             model.leaverecord.findOneAndUpdate({'user':leaveRecord.id},{ $set: { "status" : leaveRecord.status}}).then((result)=>{
-                console.log("result=====>",result._doc.status);
-                return resolve (result._doc.status);
+                return resolve (result._doc.user);
             })
 
         }catch(error){
