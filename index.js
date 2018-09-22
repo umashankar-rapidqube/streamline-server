@@ -125,6 +125,24 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   } 
   );
 
+  //saves a leave request
+  // method POST
+  //status - complete
+  app.post('/api/updateLeave',   async (req, res) => {
+      var input = req.body;
+      console.log("input111",input)
+    leaves.updateLeave(input).then((Response)=>{
+            res.send({
+            res:Response,
+            message:"Your leave request has been saved successfully"
+        })
+    }).catch((error)=>{
+        res.json(error)
+    })
+       
+  } 
+  );
+
  
   
   //deletes a leave record

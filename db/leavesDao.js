@@ -9,7 +9,8 @@ mongoose.connect(config.databaseUri, { useNewUrlParser: true });
 
 module.exports = {
     getAllLeaves : getAllLeaves,
-    saveleave : saveleave
+    saveleave : saveleave,
+    updateLeave : updateLeave
 
 }
 
@@ -29,6 +30,7 @@ function saveleave(leaveRecordJson){
             newLeave.reason = leaveRecordJson.reason;
             newLeave.leaveType = leaveRecordJson.leaveType;
             newLeave.count = leaveRecordJson.count;
+            newLeave.status = leaveRecordJson.status;
             newLeave.user = ObjectId(leaveRecordJson.user);
          
             
@@ -48,7 +50,6 @@ function saveleave(leaveRecordJson){
 
 function updateLeaveInfo(userid, leaveid){
     model.leave.findOne({'user':ObjectId('5b5ad13fb671cd3aa0f6e473')}).then((leaveObj)=>{
-
         console.log(leaveObj)
         var leaveRecords = leaveObj.leaves;
         if (leaveRecords === undefined){
@@ -61,6 +62,28 @@ function updateLeaveInfo(userid, leaveid){
         });
 
     })
+
+    //newLeave.findOneAndUpdate({'user':'5b5ad380eb41a308207f1bb1'},{new: true},  )
+
+    
+}
+
+function updateLeave(leaveRecord){
+    return new Promise((resolve, reject)=>{
+
+        try{
+            model.leaverecord.findOneAndUpdate({'user':leaveRecord.id},{ $set: { "status" : leaveRecord.status}}).then((result)=>{
+                console.log("result=====>",result._doc.status);
+                return resolve (result._doc.status);
+            })
+
+        }catch(error){
+            return reject(error)
+    
+           }
+        
+    })
+    
 
     //newLeave.findOneAndUpdate({'user':'5b5ad380eb41a308207f1bb1'},{new: true},  )
 
