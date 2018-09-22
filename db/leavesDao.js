@@ -72,27 +72,56 @@ function getAllLeaves(userid){
     var leaveRecords = []
     return new Promise((resolve, reject)=>{
         console.log(userid)
-        model.leaverecord.find({'user':ObjectId(userid)}).then((resultset)=>{
-            console.log("result",resultset)
-            for(var index in resultset){
-                var leaveRecord = {}
-                var item = resultset[index];
+        if(userid == undefined){
+            model.leaverecord.find().then((resultset)=>{
+                console.log("result",resultset)
+                for(var index in resultset){
+                    var leaveRecord = {}
+                    var item = resultset[index];
+    
+                    leaveRecord.from = item.from;
+                    leaveRecord.to = item.to;
+                    leaveRecord.reason = item.reason;
+                    leaveRecord.id = item._id;
+                    leaveRecord.count = item.count
+                    leaveRecord.status = item.status
 
-                leaveRecord.from = item.from;
-                leaveRecord.to = item.to;
-                leaveRecord.reason = item.reason;
-                leaveRecord.id = item._id;
-                leaveRecord.count = item.count
-
-                leaveRecords.push(leaveRecord);
-
-                resolve(leaveRecords);
+    
+                    leaveRecords.push(leaveRecord);
+    
+                    resolve(leaveRecords);
+                    
+                }
                 
-            }
-            
-        }).catch((error)=>{
-            reject(error);
-        })
+            }).catch((error)=>{
+                reject(error);
+            })
+
+        }else{
+            model.leaverecord.find({'user':ObjectId(userid)}).then((resultset)=>{
+                console.log("result",resultset)
+                for(var index in resultset){
+                    var leaveRecord = {}
+                    var item = resultset[index];
+    
+                    leaveRecord.from = item.from;
+                    leaveRecord.to = item.to;
+                    leaveRecord.reason = item.reason;
+                    leaveRecord.id = item._id;
+                    leaveRecord.count = item.count
+    
+                    leaveRecords.push(leaveRecord);
+    
+                    resolve(leaveRecords);
+                    
+                }
+                
+            }).catch((error)=>{
+                reject(error);
+            })
+
+        }
+        
     })
     
 }
