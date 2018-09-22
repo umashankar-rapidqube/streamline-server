@@ -69,7 +69,10 @@ function updateLeaveInfo(userid, leaveid){
 }
 
 function updateLeave(leaveRecord){
-    return new Promise((resolve, reject)=>{
+    console.log("leaveRecord",leaveRecord.id);
+    console.log("leaveRecord",leaveRecord.status);
+
+    return new Promise(async(resolve, reject)=>{
 
         try{
             model.leaverecord.findOneAndUpdate({'user':leaveRecord.id},{ $set: { "status" : leaveRecord.status}}).then((result)=>{
@@ -104,7 +107,7 @@ function getAllLeaves(userid){
                     leaveRecord.from = item.from;
                     leaveRecord.to = item.to;
                     leaveRecord.reason = item.reason;
-                    leaveRecord.id = item._id;
+                    leaveRecord.id = item.user;
                     leaveRecord.count = item.count
                     leaveRecord.status = item.status
 
