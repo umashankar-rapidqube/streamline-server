@@ -10,7 +10,11 @@ mongoose.connect(config.databaseUri, { useNewUrlParser: true });
 
 module.exports = {
     saveideas: saveideas,
-    getAllIdeas:getAllIdeas
+    getAllIdeas:getAllIdeas,
+    saveidealikes:saveidealikes,
+    saveideacomments:saveideacomments,
+    getLC:getLC
+
 }
 function saveideas(ideaRecordJson){
     return new Promise(async (resolve,reject)=>{
@@ -58,4 +62,67 @@ function getAllIdeas(userid){
         
     })
 }
+function getLC(userid){
+    return new Promise(async (resolve,reject)=>{
+        var responseObj = {};
 
+        mongodb.getLC(userid).then((data)=>{
+            
+            responseObj.data = [];
+            responseObj.ideas = data;
+            responseObj.errors = [];
+            responseObj.meta={};
+
+            resolve(responseObj);
+        }).catch((error)=>{
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta={};
+        });
+    
+        
+    })
+}
+
+function saveidealikes(ideaRecordJson){
+    return new Promise(async (resolve,reject)=>{
+        var responseObj = {};
+    console.log(ideaRecordJson)
+        var user = mongodb.saveIdealikes(ideaRecordJson).then((data)=>{
+        console.log(user,"user")
+            responseObj.data = data;
+            responseObj.errors = [];
+            responseObj.meta={};
+
+            resolve(responseObj);
+        }).catch((error)=>{
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta={};
+        });
+    
+        
+        
+    })
+}
+function saveideacomments(ideaRecordJson){
+    return new Promise(async (resolve,reject)=>{
+        var responseObj = {};
+    console.log(ideaRecordJson)
+        var user = mongodb.saveIdeacomments(ideaRecordJson).then((data)=>{
+        console.log(user,"user")
+            responseObj.data = data;
+            responseObj.errors = [];
+            responseObj.meta={};
+
+            resolve(responseObj);
+        }).catch((error)=>{
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta={};
+        });
+    
+        
+        
+    })
+}

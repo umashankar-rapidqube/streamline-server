@@ -175,10 +175,55 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
      
 } 
 );
+ app.post('/api/ideabox/like',   async (req, res) => {
+    var userid = req.query
+    console.log("userid",userid)
+   
+  ideas.saveidealikes(userid).then((Response)=>{
+      // res.json(Response)
+      console.log("Response",Response);
+      res.send({
+          res:Response,
+          message:"Your ideas has been saved successfully"
+      })
+  }).catch((error)=>{
+      res.json(error)
+  })
+     
+} 
+);
+app.post('/api/ideabox/comment',   async (req, res) => {
+    var input = req.body;
+   
+  ideas.saveideacomments(input).then((Response)=>{
+      // res.json(Response)
+      console.log("Response",Response);
+      res.send({
+          res:Response,
+          message:"Your ideas has been saved successfully"
+      })
+  }).catch((error)=>{
+      res.json(error)
+  })
+     
+} 
+);
   //retrieves all ideas from users
   app.get('/api/ideabox',  (req, res) => {
    
     ideas.getAllIdeas().then((Response)=>{
+        res.json(Response)
+        console.log("res",Response)
+    }).catch((error)=>{
+        res.json(error)
+    })
+    
+  } 
+  );
+  app.get('/api/ideaboxL&C',  (req, res) => {
+   var userid = req.query
+   console.log("userid",userid)
+       ideas.getLC(userid).then((Response)=>{
         res.json(Response)
         console.log("res",Response)
     }).catch((error)=>{

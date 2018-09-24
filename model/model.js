@@ -26,7 +26,11 @@ var employeeSchema = new Schema({
       email: String,
       created_at: String,
       suggestions: String,
-      user: { type: Schema.Types.ObjectId, ref: 'employee' }
+      uniqueid:String,
+      likes: Number,
+      comments: String,
+      user: { type: Schema.Types.ObjectId, ref: 'employee' },
+      
 
   })
 
