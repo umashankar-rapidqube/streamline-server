@@ -80,6 +80,8 @@ exports.useMongoDBSessionStore = true;
 
 // If you want to use mongoDB, provide the uri here for the database.
 exports.databaseUri = 'mongodb://nodeadmin:nodeadmin123@ds125181.mlab.com:25181/streamline';
+// exports.databaseUri = 'mongodb://localhost:27017/streamline';
+
 
 // How long you want to keep session in mongoDB.
 exports.mongoDBSessionMaxAge = 24 * 60 * 60;  // 1 day (unit is second)

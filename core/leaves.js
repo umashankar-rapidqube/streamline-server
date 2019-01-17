@@ -4,7 +4,9 @@ var mongodb = require('../db/leavesDao');
 module.exports = {
     getAllLeaves: getAllLeaves,
     saveLeave: saveLeave,
-    updateLeave: updateLeave
+    updateLeave: updateLeave,
+    update:update,
+    register:register
 }
 
 function getAllLeaves(userid) {
@@ -30,7 +32,7 @@ function getAllLeaves(userid) {
 }
 
 function saveLeave(leaveRecord) {
-    // console.log(leaveRecord,"leaveecord")
+     console.log(leaveRecord,"leaveecord")
     return new Promise(async (resolve, reject) => {
         var responseObj = {};
 
@@ -57,6 +59,46 @@ function updateLeave(leaveRecord) {
     return new Promise(async (resolve, reject) => {
         var responseObj = {};
          mongodb.updateLeave(leaveRecord).then((data) => {
+            responseObj.data = data;
+            responseObj.errors = [];
+            responseObj.meta = {};
+
+            resolve(responseObj);
+        }).catch((error) => {
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta = {};
+        });
+
+
+
+    })
+}
+function update(input) {
+    console.log("test")
+    return new Promise(async (resolve, reject) => {
+        var responseObj = {};
+         mongodb.update(input).then((data) => {
+            responseObj.data = data;
+            responseObj.errors = [];
+            responseObj.meta = {};
+
+            resolve(responseObj);
+        }).catch((error) => {
+            responseObj.data = [];
+            responseObj.errors = [error];
+            responseObj.meta = {};
+        });
+
+
+
+    })
+}
+
+function register(employeeregistration) {
+    return new Promise(async (resolve, reject) => {
+        var responseObj = {};
+         mongodb.register(employeeregistration).then((data) => {
             responseObj.data = data;
             responseObj.errors = [];
             responseObj.meta = {};

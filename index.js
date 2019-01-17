@@ -3,6 +3,9 @@ var morgan = require("morgan");
 var passport = require("passport");
 var BearerStrategy = require('passport-azure-ad').BearerStrategy;
 var leaves = require('./core/leaves');
+var leaves2 = require('./core/leaves');
+ var leaves = require('./core/leaves');
+var issues = require('./core/issues');
 var ideas = require('./core/ideabox');
 var user = require('./core/user');
 var compression = require('compression');
@@ -71,7 +74,7 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
   //satus = complete
   app.get('/api/leaves',  (req, res) => {
     var userid = req.query['userid']
-    console.log(userid)
+    console.log("email",userid)
     leaves.getAllLeaves(userid).then((Response)=>{
         res.json(Response)
     }).catch((error)=>{
@@ -124,8 +127,22 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
        
   } 
   );
+  app.post('/api/register',async (req, res) => {
+    var input = req.body;
+    console.log("input111",input)
+  leaves2.register(input).then((Response)=>{
+          res.send({
+          res:Response,
+          message:"Your leave request has been saved successfully"
+      })
+  }).catch((error)=>{
+      res.json(error)
+  })
+     
+}); 
 
-  //saves a leave request
+
+//saves a leave request
   // method POST
   //status - complete
   app.post('/api/updateLeave',   async (req, res) => {
@@ -140,8 +157,36 @@ app.get('/api/issues',passport.authenticate('oauth-bearer', {session: false}), (
         res.json(error)
     })
        
-  } 
-  );
+  }); 
+  app.post('/api/report',   async (req, res) => {
+    var input = req.body;
+    console.log("input111",input)
+  leaves.update(input).then((Response)=>{
+          res.send({
+          res:Response,
+          message:"Your leave request has been saved successfully"
+      })
+  }).catch((error)=>{
+      res.json(error)
+  })
+     
+}); 
+
+//   app.post('/api/updateLeave1',   async (req, res) => {
+//     var input = req.body;
+//     console.log("input111",input)
+//   leaves1.update(input).then((Response)=>{
+//           res.send({
+//           res:Response,
+//           message:"Your leave request has been saved successfully"
+//       })
+//   }).catch((error)=>{
+//       res.json(error)
+//   })
+     
+// } 
+
+//   );
 
  
   

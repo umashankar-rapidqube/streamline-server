@@ -2,23 +2,37 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var leaveRecordSchema = new Schema({
+var leaverecordSchema = new Schema({
     from: Date,
     to: Date,
     count: Number,
     reason:String,
     leaveType: String,
     status:String,
-    user :{ type: Schema.Types.ObjectId, ref: 'employee' }
+    email:String,
+    remainingleaves:Number,
+   // user :{ type: Schema.Types.ObjectId, ref: 'employee' }
+   user : String
    
 })
+
+var employeeregistrationSchema = new Schema({
+
+    employmail:String,
+    managermail:String,
+    Balanceleave:Number,
+    month:Number,
+    lop:Number
+});
 
 var employeeSchema = new Schema({
     fname: String,
     lname: String,
     email: String,
+    month:Number,
     leavebalance :String
   });
+
   var ideaboxschema = new Schema({
       title: String,
       domain: String,
@@ -36,12 +50,15 @@ var employeeSchema = new Schema({
 
 var employee = mongoose.model('employee', employeeSchema);
 
-var leaveRecord = mongoose.model('leaveRecord', leaveRecordSchema);
+var leaverecord = mongoose.model('leaverecord', leaverecordSchema);
+var employeeregistration = mongoose.model('employeeregistration', employeeregistrationSchema); 
+
 
 var ideabox = mongoose.model('ideabox', ideaboxschema);
 
 module.exports={
     employee : employee,
-    leaverecord : leaveRecord,
+    leaverecord : leaverecord,
+    employeeregistration:employeeregistration,
     ideabox: ideabox
 };
